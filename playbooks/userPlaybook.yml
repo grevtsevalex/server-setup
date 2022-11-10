@@ -1,0 +1,15 @@
+ - hosts: localhost
+   gather_facts: no
+
+   tasks:
+     - name: install git
+       ansible.builtin.apt:
+         name: git
+         state: present
+       become: true
+
+     - name: create git config files
+       ansible.builtin.template:
+         src: "files/user/.gitconfig.j2"
+         dest: "/home/{{ username }}/.gitconfig"
+       become: true
