@@ -1,11 +1,11 @@
 #!/bin/sh
 
-sudo groupadd developer
+sudo groupadd developer -f
 sudo usermod -a -G developer $USER
 sudo chgrp -R developer /var
 sudo chmod 770 /var
 
-mkdir /var/www
+mkdir /var/www -p
 sudo chgrp -R www-data /var/www
 sudo usermod -a -G www-data $USER
 sudo chmod -R 770 /var/www
