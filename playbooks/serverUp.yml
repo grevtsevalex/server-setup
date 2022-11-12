@@ -1,0 +1,22 @@
+ - hosts: webservers
+   gather_facts: no
+
+   tasks:
+     - name: install nginx
+       ansible.builtin.apt:
+         name: nginx
+         state: latest
+       become: yes
+
+     - name: copy config for dns.loc
+       ansible.builtin.copy:
+         src: ../files/dns.conf
+         dest: "/etc/nginx/site-available"
+       become: yes
+
+     - name: copy config for restapi.dns.loc
+       ansible.builtin.copy:
+         src: ../files/restapi.conf
+         dest: "/etc/nginx/site-available"
+       become: yes
+

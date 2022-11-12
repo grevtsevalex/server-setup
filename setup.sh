@@ -3,7 +3,7 @@
 sudo groupadd developer -f
 sudo usermod -a -G developer $USER
 sudo chgrp -R developer /var
-sudo chmod 770 /var
+sudo chmod -R 770 /var
 
 mkdir /var/www -p
 sudo chgrp -R www-data /var/www
