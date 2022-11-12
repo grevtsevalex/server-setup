@@ -9,6 +9,7 @@ mkdir /var/www -p
 sudo chgrp -R www-data /var/www
 sudo usermod -a -G www-data $USER
 sudo chmod -R 770 /var/www
+sudo su $(whoami)
 
 #install ansible
 sudo apt update -y
