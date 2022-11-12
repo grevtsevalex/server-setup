@@ -1,15 +1,17 @@
-- hosts: localhost
-  gather_facts: no
+ - hosts: webservers
+   gather_facts: no
+   vars_files:
+     - ../vars.yml
 
-  tasks:
-    - name: remove git
-      ansible.builtin.apt:
-        name: git
-        state: absent
-      become:yes
+   tasks:
+     - name: remove git
+       ansible.builtin.apt:
+         name: git
+         state: absent
+       become: yes
 
-    - name: remove git config file
-      ansible.builtin.file:
-        src: "files/user/.gitconfig.j2"
-        state: absent 
-      become: yes
+     - name: remove git config file
+       ansible.builtin.file:
+         path: "/home/{{username}}/.gitconfig"
+         state: absent 
+       become: yes

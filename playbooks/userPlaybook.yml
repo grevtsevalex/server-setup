@@ -1,15 +1,17 @@
- - hosts: localhost
+ - hosts: webservers
    gather_facts: no
+   vars_files: 
+     - ../vars.yml
 
    tasks:
      - name: install git
        ansible.builtin.apt:
          name: git
          state: present
-       become: true
+       become: yes
 
      - name: create git config files
        ansible.builtin.template:
-         src: "files/user/.gitconfig.j2"
+         src: "../files/user/.gitconfig.j2"
          dest: "/home/{{ username }}/.gitconfig"
-       become: true
+       become: yes
