@@ -11,12 +11,46 @@
      - name: copy config for dns.loc
        ansible.builtin.copy:
          src: ../files/dns.conf
-         dest: "/etc/nginx/site-available"
+         dest: "/etc/nginx/sites-available"
        become: yes
 
      - name: copy config for restapi.dns.loc
        ansible.builtin.copy:
          src: ../files/restapi.conf
-         dest: "/etc/nginx/site-available"
+         dest: "/etc/nginx/sites-available"
        become: yes
 
+     - name: Create a symbolic link for dns.conf
+       ansible.builtin.file:
+         src: /etc/nginx/sites-available/dns.conf
+         dest: /etc/nginx/sites-enabled/dns.conf
+         group: www-data
+         state: link
+     
+     - name: Create a symbolic link for restapi.conf
+       ansible.builtin.file:
+         src: /etc/nginx/sites-available/restapi.conf
+         dest: /etc/nginx/sites-enabled/restapi.conf
+         group: www-data
+         state: link
+
+     - name: clone project from github
+       ansible.builtin.git:
+         repo: git@git.dns-shop.ru:the-chosen-ones/despair.git
+         dest: /var/www/despair
+         key_file: /home/grevtsevalex/.ssh/id_rsa
+         accept_hostkey: yes
+         force: yes
+
+     - name: Change file ownership, group and permissions
+       ansible.builtin.file:
+         path: /var
+         owner: www-data
+         group: www-data
+         mode: '0775'
+
+
+     - name: copy site-local.php file
+       ansible.builtin.copy:
+         src: ../files/site-local.php
+         dest: "/var/www/despair/dns/config"
