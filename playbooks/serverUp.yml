@@ -2,23 +2,23 @@
    gather_facts: no
 
    tasks:
+     - name: add hosts
+       ansible.builtin.shell: sudo  echo '127.0.0.1  dns.loc backend.dns.loc www.dns.loc restapi.dns.loc webapi.dns.loc'>> /etc/hosts
+
      - name: install nginx
        ansible.builtin.apt:
          name: nginx
          state: latest
-       become: yes
 
      - name: copy config for dns.loc
        ansible.builtin.copy:
          src: ../files/dns.conf
          dest: "/etc/nginx/sites-available"
-       become: yes
 
      - name: copy config for restapi.dns.loc
        ansible.builtin.copy:
          src: ../files/restapi.conf
          dest: "/etc/nginx/sites-available"
-       become: yes
 
      - name: Create a symbolic link for dns.conf
        ansible.builtin.file:
@@ -54,7 +54,6 @@
        ansible.builtin.copy:
          src: ../files/site-local.php
          dest: "/var/www/despair/dns/config"
-
 
      - name: install php8
        ansible.builtin.apt:
