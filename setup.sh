@@ -1,14 +1,9 @@
 #!/bin/sh
 
-sudo groupadd developer -f
-sudo usermod -a -G developer $USER
-sudo chgrp -R developer /var
-sudo chmod -R 770 /var
-
 mkdir /var/www -p
-sudo chgrp -R www-data /var/www
+sudo chgrp -R www-data /var
 sudo usermod -a -G www-data $USER
-sudo chmod -R 775 /var/www
+sudo chmod -R 775 /var
 sudo su $(whoami)
 
 #install ansible
