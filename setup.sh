@@ -15,3 +15,9 @@ sudo apt install ansible -y
 
 #install make
 apt install make -y
+
+
+#generate ssh
+ssh-keygen
+echo "Сгенерированный публичный ssh-ключ нужно добавить в gitlab";
+ssh-keyscan git.dns-shop.ru >> ~/.ssh/known_hosts
