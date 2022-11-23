@@ -59,16 +59,19 @@
          state: latest
 
      - name: install rdkafka extension
-       ansible.builtin.shell: sudo pecl install rdkafka -y | echo 0
+       ansible.builtin.shell: sudo pecl install rdkafka
 
      - name: add rdkafka to php.ini
-       ansible.builtin.shell: echo 'extension=rdkafka.so' >> /etc/php/8.0/cli/php.ini
+       ansible.builtin.shell: grep -Fq 'extension=rdkafka.so' /etc/php/8.0/cli/php.ini || echo 'extension=rdkafka.so' >> /etc/php/8.0/cli/php.ini
 
      - name: add ext-gd to php.ini
-       ansible.builtin.shell: echo 'extension=gd' >> /etc/php/8.0/cli/php.ini
+       ansible.builtin.shell: grep -Fq 'extension=gd' /etc/php/8.0/cli/php.ini || echo 'extension=gd' >> /etc/php/8.0/cli/php.ini
      
      - name: restart php-fpm
        ansible.builtin.shell: sudo service php8.0-fpm start
      
      - name: upgrade composer to 2 version
        ansible.builtin.shell: bash ../files/composer.sh
+
+     - name: remove php 8.1 version
+       ansible.builtin.shell: apt-get purge 'php8.1*'

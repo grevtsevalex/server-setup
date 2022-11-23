@@ -18,6 +18,6 @@ apt install make -y
 
 
 #generate ssh
-ssh-keygen
+echo "Сгенерируй ssh-ключ командой: ssh-keygen"
 echo "Сгенерированный публичный ssh-ключ нужно добавить в gitlab";
-ssh-keyscan git.dns-shop.ru >> ~/.ssh/known_hosts
+echo "Выполни команду: ssh-keyscan git.dns-shop.ru >> ~/.ssh/known_hosts"

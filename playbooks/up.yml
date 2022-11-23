@@ -1,0 +1,6 @@
+- hosts: webservers
+  gather_facts: no
+
+- ansible.builtin.import_playbook: userPlaybook.yml
+- ansible.builtin.import_playbook: serverUp.yml
+- ansible.builtin.import_playbook: projectUp.yml
