@@ -58,8 +58,11 @@
            - php8.0-xdebug
          state: latest
 
+     - name: remove php 8.1 version
+       ansible.builtin.shell: apt-get purge 'php8.1*'
+
      - name: install rdkafka extension
-       ansible.builtin.shell: sudo pecl install rdkafka
+       ansible.builtin.shell: yes '' | sudo pecl install -f rdkafka
 
      - name: add rdkafka to php.ini
        ansible.builtin.shell: grep -Fq 'extension=rdkafka.so' /etc/php/8.0/cli/php.ini || echo 'extension=rdkafka.so' >> /etc/php/8.0/cli/php.ini
@@ -73,8 +76,31 @@
      - name: upgrade composer to 2 version
        ansible.builtin.shell: bash ../files/composer.sh
 
-     - name: remove php 8.1 version
-       ansible.builtin.shell: apt-get purge 'php8.1*'
-
      - name: restart nginx
        ansible.builtin.shell: sudo service nginx restart
+
+     - name: add local config files
+       ansible.builtin.shell: cd /var/www/despair/common/config && ls $1 | grep example | sed -e "p;s/\.example\./\./" | xargs -n2 mv
+
+     - name: add LocalConfig file
+       ansible.builtin.copy:
+         src: ../files/LocalConfig.php
+         dest: "/var/www/despair/common/config/local"
+         mode: '0775'
+
+     - name: create .dev file in the root of project
+       ansible.builtin.file:
+         path: /var/www/despair/.dev
+         owner: www-data
+         group: www-data
+         mode: '0775'
+
+     - name: installing Node Using the Node Version Manager
+       ansible.builtin.shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash && source ~/.bashrc && nvm install v14.10.0 && nvm use v14.10.0
+
+     - name: install npm
+       ansible.builtin.apt:
+         - name:
+             - npm
+         - state: latest
+
