@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+use common\config\local\LocalConfigAbstract;
+
+abstract class LocalConfig extends LocalConfigAbstract {
+
+	public const DB__USERNAME     = '{{ db_name }}';
+	public const DB__PASSWORD     = '{{ db_pass }}';
+
+	public const AUTH__MODAL_DOMAIN   = 'http://goauth-dev.hc-k8s.dns-shop.ru';
+	public const AUTH__CONSUL_ADDRESS = 'http://adm-grups-dev-consul1.dns-shop.ru:8500/v1/kv/goauth/public?raw=1';
+
+	public const DB_COLLECTION__CLUBRED__USERNAME         = self::DB__USERNAME;
+	public const DB_COLLECTION__CLUBRED__PASSWORD         = self::DB__PASSWORD;
+	public const DB_COLLECTION__BOUNCER__USERNAME         = self::DB__USERNAME;
+	public const DB_COLLECTION__BOUNCER__PASSWORD         = self::DB__PASSWORD;
+	public const DB_COLLECTION__AUTH__USERNAME            = self::DB__USERNAME;
+	public const DB_COLLECTION__AUTH__PASSWORD            = self::DB__PASSWORD;
+	public const DB_COLLECTION__LOGS__USERNAME            = self::DB__USERNAME;
+	public const DB_COLLECTION__LOGS__PASSWORD            = self::DB__PASSWORD;
+	public const DB_COLLECTION__ASTERISK_DV__USERNAME     = self::DB__USERNAME;
+	public const DB_COLLECTION__ASTERISK_DV__PASSWORD     = self::DB__PASSWORD;
+	public const DB_COLLECTION__ASTERISK_URAL__USERNAME   = self::DB__USERNAME;
+	public const DB_COLLECTION__ASTERISK_URAL__PASSWORD   = self::DB__PASSWORD;
+	public const DB_COLLECTION__ASTERISK_MOSCOW__USERNAME = self::DB__USERNAME;
+	public const DB_COLLECTION__ASTERISK_MOSCOW__PASSWORD = self::DB__PASSWORD;
+	public const DB_COLLECTION__ORDERS__USERNAME          = self::DB__USERNAME;
+	public const DB_COLLECTION__ORDERS__PASSWORD          = self::DB__PASSWORD;
+	public const DB_COLLECTION__EXPERT_SENDER__USERNAME   = self::DB__USERNAME;
+	public const DB_COLLECTION__EXPERT_SENDER__PASSWORD   = self::DB__PASSWORD;
+	public const DB_COLLECTION__USER__USERNAME            = self::DB__USERNAME;
+	public const DB_COLLECTION__USER__PASSWORD            = self::DB__PASSWORD;
+	public const DB_COLLECTION__CRM__USERNAME             = self::DB__USERNAME;
+	public const DB_COLLECTION__CRM__PASSWORD             = self::DB__PASSWORD;
+
+	public const REST_API__URL = 'http://restapi.dns.loc';
+	public const WEBAPI_URL    = 'http://webapi.dns.loc';
+
+	public const SERVICE_TARANTOOL_CHECKOUT__URL      = 'adm-dev-ups-ttl1.dns-shop.ru:3301';
+	public const SERVICE_TARANTOOL_CHECKOUT__LOGIN    = 'dns';
+	public const SERVICE_TARANTOOL_CHECKOUT__PASSWORD = 'iprBXku3wS';
+}

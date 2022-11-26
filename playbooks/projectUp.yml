@@ -59,7 +59,7 @@
          state: latest
 
      - name: remove php 8.1 version
-       ansible.builtin.shell: apt-get purge 'php8.1*'
+       ansible.builtin.shell: sudo apt-get purge 'php8.1*'
 
      - name: install rdkafka extension
        ansible.builtin.shell: yes '' | sudo pecl install -f rdkafka
@@ -83,8 +83,8 @@
        ansible.builtin.shell: cd /var/www/despair/common/config && ls $1 | grep example | sed -e "p;s/\.example\./\./" | xargs -n2 mv
 
      - name: add LocalConfig file
-       ansible.builtin.copy:
-         src: ../files/LocalConfig.php
+       ansible.builtin.template:
+         src: ../files/LocalConfig.php.j2
          dest: "/var/www/despair/common/config/local"
          mode: '0775'
 
@@ -98,9 +98,9 @@
      - name: installing Node Using the Node Version Manager
        ansible.builtin.shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash && source ~/.bashrc && nvm install v14.10.0 && nvm use v14.10.0
 
+     
      - name: install npm
        ansible.builtin.apt:
-         - name:
-             - npm
-         - state: latest
-
+         name: npm
+         state: latest
+           
