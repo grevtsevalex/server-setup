@@ -59,7 +59,7 @@
          state: latest
 
      - name: remove php 8.1 version
-       ansible.builtin.shell: sudo apt-get purge 'php8.1*'
+       ansible.builtin.shell: sudo apt-get purge 'php8.1*' &>1
 
      - name: install rdkafka extension
        ansible.builtin.shell: yes '' | sudo pecl install -f rdkafka
@@ -98,7 +98,6 @@
      - name: installing Node Using the Node Version Manager
        ansible.builtin.shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash && source ~/.bashrc && nvm install v14.10.0 && nvm use v14.10.0
 
-     
      - name: install npm
        ansible.builtin.apt:
          name: npm
