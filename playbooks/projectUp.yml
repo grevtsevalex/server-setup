@@ -1,5 +1,7 @@
  - hosts: webservers
    gather_facts: no
+   vars_files:
+     - ../vars.yml
 
    tasks:
      - name: clone project from gitlab
@@ -62,7 +64,7 @@
        ansible.builtin.shell: sudo apt-get purge 'php8.1*' &>1
 
      - name: install rdkafka extension
-       ansible.builtin.shell: yes '' | sudo pecl install -f rdkafka
+       ansible.builtin.shell: yes '' | sudo pecl install -f rdkafka &>1
 
      - name: add rdkafka to php.ini
        ansible.builtin.shell: grep -Fq 'extension=rdkafka.so' /etc/php/8.0/cli/php.ini || echo 'extension=rdkafka.so' >> /etc/php/8.0/cli/php.ini
@@ -85,21 +87,27 @@
      - name: add LocalConfig file
        ansible.builtin.template:
          src: ../files/LocalConfig.php.j2
-         dest: "/var/www/despair/common/config/local"
+         dest: "/var/www/despair/common/config/local/LocalConfig.php"
          mode: '0775'
 
      - name: create .dev file in the root of project
-       ansible.builtin.file:
-         path: /var/www/despair/.dev
-         owner: www-data
-         group: www-data
-         mode: '0775'
+       ansible.builtin.shell: cd /var/www/despair/ && touch .dev
 
-     - name: installing Node Using the Node Version Manager
-       ansible.builtin.shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash && source ~/.bashrc && nvm install v14.10.0 && nvm use v14.10.0
+     - name: give 775 to /var/www
+       ansible.builtin.shell: sudo chmod -R 775 /var/www
+
+     - name: install node
+       ansible.builtin.shell: curl -sL https://deb.nodesource.com/setup_14.x | sudo bash - 
+       tags: node
+
+     - name: install node
+       ansible.builtin.shell: sudo apt -y install nodejs
+       tags: node
 
      - name: install npm
        ansible.builtin.apt:
          name: npm
          state: latest
+       become: yes
+       become_user: "{{ username }}"
            
